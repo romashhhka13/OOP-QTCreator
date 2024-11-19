@@ -14,7 +14,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
+    Main.cpp
         MainWindowIlichev.cpp
         MainWindowIlichev.h
         MainWindowIlichev.ui
@@ -32,6 +32,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         SportsmansGroup.cpp
         Sportsman.cpp
         Footballer.cpp
+        Addition.h
+        Addition.cpp
+        DialogIlichev.h DialogIlichev.cpp DialogIlichev.ui
+        AddDialog.h AddDialog.cpp AddDialog.ui
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET LR3_Ilichev APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

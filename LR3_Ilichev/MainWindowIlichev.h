@@ -2,7 +2,11 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
-#include <fstream>
+
+#include "SportsmansGroup.h"
+#include "DialogIlichev.h"
+#include "Addition.h"
+#include "Serialize.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -26,6 +30,8 @@ private slots:
     void on_actionSaveAs_triggered();
 
     void on_actionClear_triggered();
+
+    void on_actionEdit_triggered();
 
 private:
     Ui::MainWindowIlichev *ui;

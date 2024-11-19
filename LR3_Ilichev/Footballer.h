@@ -10,12 +10,17 @@ class Footballer : public Sportsman
 {
 public:
 
-    Footballer();
-
-
-    //Методы для отрисовки и вычисления размеров текстового блока
+    //Методы класса
     QStringList get_data() const override;
+    std::shared_ptr<Sportsman> clone() const override;
+    void update(QStringList& data) override;
 
+    // Сеттеры
+    void set_number(int num) { number = num; };
+    void set_position(QString pos) { position = pos.toLocal8Bit(); };
+
+    // Конструктор
+    Footballer() = default;
 
 private:
     friend class boost::serialization::access;

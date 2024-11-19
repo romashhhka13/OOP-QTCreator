@@ -3,18 +3,16 @@
 BOOST_CLASS_VERSION(SportsmansGroup, 1)
 
 using namespace std;
-using namespace boost::archive;
-
 
 void SportsmansGroup::load(ifstream& fin){
     clear();
-    binary_iarchive ia(fin);
+    boost::archive::binary_iarchive ia(fin);
     ia >> *this;
 }
 
 
 void SportsmansGroup::save(std::ofstream &fout) const{
-    binary_oarchive oa(fout);
+    boost::archive::binary_oarchive oa(fout);
     oa << *this;
 }
 
@@ -27,14 +25,33 @@ bool SportsmansGroup::object_exist() const{
     return !group.empty();
 }
 
+int SportsmansGroup::get_size() const {
+    return group.size();
+}
+
+void SportsmansGroup::delete_sportsman(int index) {
+    group.erase(group.begin() + index);
+}
+
+std::shared_ptr<Sportsman> SportsmansGroup::get_sportsman(int num) {
+    return group[num];
+}
+
 void SportsmansGroup::draw(QPainter *painter, int x, int& y,
                            QVector<int>& column_widths, int padding, int height) const
 {
-    std::for_each(group.begin(), group.end(),
-                  std::bind(&Sportsman::draw, std::placeholders::_1,
-                            painter, x, std::ref(y), column_widths,
-                            padding, height));
+    std::for_each(group.begin(), group.end(), [&](const std::shared_ptr<Sportsman> sportsman) {
+        sportsman->draw(painter, x, y, column_widths, padding, height);
+    });
 }
 
-
+SportsmansGroup &SportsmansGroup::operator=(const SportsmansGroup &other)
+{
+    if (this != &other) {
+        clear();
+        for (const auto& sportsman : other.group)
+            group.push_back(sportsman->clone());
+    }
+    return *this;
+}
 

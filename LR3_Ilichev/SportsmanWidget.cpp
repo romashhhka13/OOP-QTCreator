@@ -28,34 +28,36 @@ void SportsmanWidget::paintEvent(QPaintEvent *event)
 
     // Создаём объект QPainter, устанавливаем цвет черным
     QPainter painter(this);
+    QFont font("Times New Roman", 14, -1, false);
     painter.setPen(Qt::black);
+    font.setBold(true);
+    painter.setFont(font);
+
+    // Создаем вектор заголовков таблицы, получаем ссылку на вектор спортсменов, получаем размеры каждого столбца
     QStringList headers = {"Фамилия", "Имя", "Возраст", "Рост", "Номер игрока", "Позиция на поле"};
     vector<shared_ptr<Sportsman>> sportsmans = SG.get_group();
     QVector<int> column_widths = get_min_column_widths(&painter, sportsmans, headers);
 
-    // Начальные координаты, отступ padding
+    // Задаём начальные координаты, отступ padding
+    // Рисуем заголовки
     int x = 10;
     int y = 10;
     int height = painter.fontMetrics().height() + 5;
     int padding = 5;
+    draw_table_row(&painter, column_widths, headers, x, y, padding, height, true);
 
-    for (int i = 0; i < headers.size(); i++){
-        QRect cell(x, y, column_widths[i] + padding * 4, height);
-        painter.drawRect(cell);
-
-        QRect padded_cell = cell.adjusted(padding, 0, 0, 0);
-        painter.drawText(padded_cell, Qt::AlignLeft | Qt::AlignVCenter, headers[i]);
-
-        x += column_widths[i] + padding * 4;
-    }
-
+    // Рисуем следующие строки таблицы с информацией о спортменах
     x = 10;
     y = y + height;
+    font.setPointSize(12);
+    font.setBold(false);
+    painter.setFont(font);
     SG.draw(&painter, x, y, column_widths, padding, height);
 
+    // Изменяем размеры виджета
     int table_width = std::accumulate(column_widths.begin(), column_widths.end(), 0)
-                      + column_widths.size() * padding * 4 + 20;
-    int table_height = sportsmans.size() * (height + 5) + 20;
+                      + column_widths.size() * padding * 4 + 40;
+    int table_height = sportsmans.size() * (height + 5) + 40;
     this->resize(table_width, table_height);
 }
 
@@ -65,6 +67,7 @@ void SportsmanWidget::load(const QString &path)
     std::ifstream fin(path.toStdString());
     if (fin)
         SG.load(fin);
+    update();
 }
 
 
@@ -78,6 +81,5 @@ void SportsmanWidget::save(const QString &path)
 
 void SportsmanWidget::clear(){
     SG.clear();
-    // this->resize(0, 0);
     update();
 }

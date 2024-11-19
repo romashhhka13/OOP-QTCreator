@@ -4,15 +4,23 @@ BOOST_CLASS_VERSION(Sportsman, 1)
 
 using namespace std;
 
-
 int Sportsman::max_id = 1;
-
 
 void Sportsman::reset_maxID()
 {
     max_id = 1;
 }
 
+std::shared_ptr<Sportsman> Sportsman::clone() const{
+    return std::make_shared<Sportsman>(*this);
+}
+
+void Sportsman::update(QStringList& data){
+    surname = data[0].toLocal8Bit();
+    name = data[1].toLocal8Bit();
+    age = data[2].toInt();
+    height = data[3].toInt();
+}
 
 QStringList Sportsman::get_data() const
 {
@@ -22,28 +30,12 @@ QStringList Sportsman::get_data() const
                         QString::number(height)});
 }
 
-
 void Sportsman::draw(QPainter *painter, int x, int& y, QVector<int>& column_widths, int padding, int height) const {
 
     QStringList data = get_data();
-
-    for (int i = 0; i < column_widths.size(); i++){
-        QRect cell(x, y, column_widths[i] + padding * 4, height);
-        painter->drawRect(cell);
-
-        QRect padded_cell = cell.adjusted(padding, 0, 0, 0);
-
-        if (i < data.size())
-            painter->drawText(padded_cell, Qt::AlignLeft | Qt::AlignVCenter, data[i]);
-        else
-            painter->drawText(padded_cell, Qt::AlignLeft | Qt::AlignVCenter, "-");
-
-        x += column_widths[i] + padding * 4;
-    }
-
+    draw_table_row(painter, column_widths, data, x, y, padding, height);
     y += height;
 }
-
 
 QVector<int> Sportsman::get_column_widths(QPainter* painter) const
 {
@@ -54,14 +46,4 @@ QVector<int> Sportsman::get_column_widths(QPainter* painter) const
         widths[i] = painter->fontMetrics().horizontalAdvance(data[i]);
 
     return widths;
-}
-
-
-Sportsman::Sportsman()
-{
-    surname = "";
-    name = "";
-    age = 0;
-    height = 0;
-    id = max_id++;
 }
