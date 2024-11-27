@@ -32,6 +32,7 @@ public:
 
     // Конструкторы
     SportsmansGroup() = default;
+    SportsmansGroup(const SportsmansGroup& SG);
 
     // Переопределение операторов
     SportsmansGroup& operator=(const SportsmansGroup& other);

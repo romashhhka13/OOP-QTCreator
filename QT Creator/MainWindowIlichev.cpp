@@ -40,12 +40,13 @@ void MainWindowIlichev::on_actionClear_triggered(){
 
 void MainWindowIlichev::on_actionEdit_triggered()
 {
-    // SportsmansGroup SG(ui->my_widget->get_SG());
+    SportsmansGroup SG(ui->my_widget->get_SG());
     // clone(ui->my_widget->get_SG(), SG);
-    std::shared_ptr<SportsmansGroup> SG = std::make_shared<SportsmansGroup>(ui->my_widget->get_SG());
+    std::shared_ptr<SportsmansGroup> SG_ptr = std::make_shared<SportsmansGroup>(SG);
+    // std::shared_ptr<SportsmansGroup> SG = std::make_shared<SportsmansGroup>(ui->my_widget->get_SG());
 
 
-    DialogIlichev dlg(this, SG);
+    DialogIlichev dlg(this, SG_ptr);
     auto launch = dlg.exec();
 
     if (launch == QDialog::Accepted) {

@@ -45,6 +45,12 @@ void SportsmansGroup::draw(QPainter *painter, int x, int& y,
     });
 }
 
+SportsmansGroup::SportsmansGroup(const SportsmansGroup &SG)
+{
+    for (const auto& sportsman : SG.group)
+        group.push_back(sportsman->clone());
+}
+
 SportsmansGroup &SportsmansGroup::operator=(const SportsmansGroup &other)
 {
     if (this != &other) {
