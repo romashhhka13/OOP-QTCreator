@@ -4,7 +4,6 @@
 using namespace std;
 
 
-BOOST_CLASS_VERSION(Footballer, 1)
 BOOST_CLASS_EXPORT(Footballer)
 
 

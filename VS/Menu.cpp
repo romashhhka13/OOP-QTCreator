@@ -34,7 +34,7 @@ void MenuSave(const SportsmansGroup& group)
 	cout << endl << "Введите название файла: ";
 	getline(cin >> ws, file_name);
 
-	ofstream fout(".data/" + file_name + ".txt");
+	ofstream fout(".data/" + file_name + ".txt", ios::binary);
 
 	if (fout) {
 		group.Save(fout);
@@ -51,7 +51,7 @@ void MenuLoad(SportsmansGroup& group)
 	cout << endl << "Введите название файла: ";
 	getline(cin >> ws, file_name);
 
-	ifstream fin(".data/" + file_name + ".txt");
+	ifstream fin(".data/" + file_name + ".txt", ios::binary);
 	if (fin) {
 		group.Load(fin);
 		cout << "Данные успешно считаны!" << endl;

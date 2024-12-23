@@ -5,8 +5,6 @@ using namespace std;
 using namespace boost::archive;
 
 
-BOOST_CLASS_VERSION(SportsmansGroup, 1);
-
 
 void SportsmansGroup::AddSportsman(){
 	shared_ptr<Sportsman> s = make_shared<Sportsman>();
@@ -39,6 +37,7 @@ void SportsmansGroup::Save(ofstream& fout) const
 
 void SportsmansGroup::Load(ifstream& fin){
 
+	std::cout << "Size" << fin.tellg() << std::endl;
 	this->Clear();
 	binary_iarchive ia(fin);
 	ia >> *this;

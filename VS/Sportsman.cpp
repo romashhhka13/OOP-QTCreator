@@ -7,8 +7,6 @@ using namespace std;
 int Sportsman::max_id = 1;
 
 
-BOOST_CLASS_VERSION(Sportsman, 1)
-
 
 void Sportsman::ResetMaxID() {
     max_id = 1;
